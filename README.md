@@ -49,7 +49,6 @@ libraryDependencies ++= Seq(
 ```
 
 ## 📋 Requisiti
-
 Per eseguire il progetto localmente è necessario:
 
 1. **Java JDK 11** configurato nel `JAVA_HOME`.

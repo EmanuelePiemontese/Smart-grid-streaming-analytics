@@ -40,10 +40,12 @@ Il sistema è sviluppato in **Scala** per garantire performance native e *Type S
 libraryDependencies ++= Seq(
   "org.apache.spark" %% "spark-core" % "3.5.7",
   "org.apache.spark" %% "spark-sql" % "3.5.7",
-  "org.apache.spark" %% "spark-streaming" % "3.5.7",
+  "org.apache.spark" %% "spark-mllib"% "3.5.7",
+  "org.apache.spark" %% "spark-streaming"% "3.5.7",
   "org.apache.spark" %% "spark-sql-kafka-0-10" % "3.5.7",
   "io.delta" %% "delta-spark" % "3.1.0",
-  "com.fasterxml.jackson.module" %% "jackson-module-scala" % "2.15.2"
+  "com.fasterxml.jackson.module" %% "jackson-module-scala" % "2.15.2",
+  "ch.qos.logback" % "logback-classic" % "1.4.14"
 )
 
 ```

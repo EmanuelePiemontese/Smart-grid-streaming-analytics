@@ -2,6 +2,8 @@
 
 **London Energy Pulse** è una piattaforma di **Streaming Analytics** e **Anomaly Detection** progettata per il monitoraggio in tempo reale delle Smart Grids urbane. Utilizzando il dataset *LCL (London DataStore)*, il sistema trasforma letture energetiche statiche in flussi di dati intelligenti, integrando variabili meteorologiche per rilevare anomalie di consumo.
 
+---
+
 ## 🚀 Panoramica del Progetto
 
 L'obiettivo è superare i limiti delle analisi batch tradizionali, implementando una pipeline reattiva capace di:
@@ -10,6 +12,8 @@ L'obiettivo è superare i limiti delle analisi batch tradizionali, implementando
 * **Data Enrichment**: join dinamico tra flussi di consumo e dati meteo.
 * **Stateful Analysis**: monitoraggio del profilo storico dell'utente per il rilevamento di guasti o picchi anomali.
 * **Data Lakehouse**: archiviazione sicura e transazionale tramite Medallion Architecture su Delta Lake.
+
+---
 
 ## 🏗️ Architettura del Sistema
 
@@ -24,9 +28,59 @@ Il progetto adotta un modello **decoupled (disaccoppiato)** per garantire scalab
 
 ![Architettura di Streaming Analytics](Architettura.png)
 
-## 🛠️ Tech Stack & Dipendenze
+---
 
-Il sistema è sviluppato in **Scala** per garantire performance native e *Type Safety*.
+## 📊 Dataset e 📜 Licenza
+
+Questo progetto utilizza il dataset **Smart Meters in London**, raccolto nell’ambito del progetto *Low Carbon London*.
+
+Fonte del dataset:
+Smart Meters in London – disponibile su Kaggle
+[https://www.kaggle.com/datasets/jeanmidev/smart-meters-in-london](https://www.kaggle.com/datasets/jeanmidev/smart-meters-in-london)
+
+Fornitore originale dei dati:
+[https://data.london.gov.uk/dataset/smartmeter-energy-consumption-data-in-london-households-vqm0d/](https://data.london.gov.uk/dataset/smartmeter-energy-consumption-data-in-london-households-vqm0d/)
+
+
+Il dataset è distribuito secondo la licenza **Open Data Commons Open Database License (ODbL) v1.0**.
+I dati sono utilizzati esclusivamente per finalità accademiche e didattiche.
+Questo repository **non redistribuisce il dataset originale**.
+Per riprodurre i risultati è necessario scaricare i dati direttamente dalla fonte ufficiale.
+
+#### 📥 Download e preparazione dei dati
+Per replicare il progetto è necessario scaricare manualmente i dati dalla pagina Kaggle:
+[https://www.kaggle.com/datasets/jeanmidev/smart-meters-in-london](https://www.kaggle.com/datasets/jeanmidev/smart-meters-in-london)
+
+##### File necessari
+Scaricare i seguenti file:
+* **`halfhourly_dataset.zip`**
+* **`informations_households.csv`**
+* **`weather_hourly.csv`**
+
+Dopo aver scaricato i file, creare una cartella denominata:
+```
+data/
+```
+All’interno della cartella `data` inserire:
+```
+data/
+│
+├── halfhourly_dataset
+    ├── block_0.csv
+    ├── block_1.csv
+    ├── block_2.csv
+    └── ...
+├── informations_households.csv
+└── weather_hourly.csv
+```
+
+**Nel codice è necessario impostare correttamente il percorso relativo alla cartella `data`.**
+Sostituire il percorso assoluto con il percorso corretto della propria macchina.
+
+
+---
+
+## 🛠️ Tech Stack & Dipendenze
 
 * **Linguaggio**: Scala 2.12.18
 * **Build Tool**: SBT 1.9.8
@@ -34,7 +88,7 @@ Il sistema è sviluppato in **Scala** per garantire performance native e *Type S
 * **Broker**: Apache Kafka (Installazione nativa)
 * **Storage**: Delta Lake 3.1.0
 
-### Configurazione `build.sbt`
+#### Configurazione `build.sbt`
 
 ```scala
 libraryDependencies ++= Seq(

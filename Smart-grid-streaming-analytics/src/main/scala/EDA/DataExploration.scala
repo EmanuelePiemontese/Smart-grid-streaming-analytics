@@ -1,6 +1,7 @@
+package EDA
+
 import org.apache.spark.sql.SparkSession
 import org.apache.spark.sql.functions._
-import org.slf4j.LoggerFactory
 
 object DataExploration {
   def main(args: Array[String]): Unit = {

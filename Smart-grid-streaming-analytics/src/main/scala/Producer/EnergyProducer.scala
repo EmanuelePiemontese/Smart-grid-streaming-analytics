@@ -16,7 +16,7 @@ object EnergyProducer {
 
   def main(args: Array[String]): Unit = {
 
-    // !!! ATTENZIONE: modificare 'basePath' con il vostro percorso locale alla cartella 'halfhourly_dataset' !!!
+    // !!! ATTENZIONE: modificare 'basePath' con il vostro percorso locale alla cartella 'data/halfhourly_dataset' !!!
     val basePath = "/Users/emanuelepiemontese/data/halfhourly_dataset"
 
     // Nome del topic Kafka su cui inviare i dati

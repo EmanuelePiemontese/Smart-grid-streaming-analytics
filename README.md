@@ -28,9 +28,7 @@ Il progetto adotta un modello **decoupled (disaccoppiato)** per garantire scalab
 
 ![Architettura di Streaming Analytics](Architettura.png)
 
-
 ---
-## Struttura del Repository
 
 ## 📂 Struttura del Progetto
 
@@ -53,9 +51,9 @@ Smart-grid-streaming-analytics/
 ├── src/test/scala/
 │   └── AnomalyDetectionTest         # Test unitari per la validazione della logica
 ├── build.sbt                        # Gestione dipendenze e build
-Architettura.png                    # Diagramma dell'architettura del sistema
-Documentazione.pdf                  # Documentazione tecnica dettagliata
-README.md                           # Guida introduttiva e istruzioni
+Architettura.png                     # Diagramma dell'architettura del sistema
+Documentazione.pdf                   # Documentazione tecnica dettagliata
+README.md                            # Guida introduttiva e istruzioni
 ```
 ---
 
@@ -184,10 +182,6 @@ Per eseguire il progetto localmente è necessario:
 1. **Java JDK 11** configurato nel `JAVA_HOME`.
 2. **Apache Kafka & Zookeeper** avviati localmente.
 3. **IntelliJ IDEA** con il plugin Scala installato.
----
-
-Ecco la guida sintetica per replicare il progetto **London Energy Pulse** sul tuo ambiente locale.
-
 ---
 
 ## Guida Rapida alla Replica

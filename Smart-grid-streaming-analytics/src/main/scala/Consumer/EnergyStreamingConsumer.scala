@@ -63,7 +63,7 @@ object EnergyStreamingConsumer {
       return Iterator.empty
     }
 
-    // Inizzializzo la lista degli alert che verranno generati per questo gruppo di letture
+    // Inizializzo la lista degli alert che verranno generati per questo gruppo di letture
     var alerts = List[AnomalyAlert]()
     // Recupero lo stato corrente del contatore, se esiste, altrimenti inizializzo con valori di default (media 0, varianza 0, conteggio 0)
     var currentState = state.getOption.getOrElse(MeterState(meterId, 0.0, 0.0, 0, 0L))
@@ -75,7 +75,6 @@ object EnergyStreamingConsumer {
       foreach { reading =>
         val x = reading.consumption     // Valore di consumo attuale da analizzare
         val temp = reading.temperature  // Temperatura associata alla lettura, utilizzata per la logica context-aware
-        val timestamp = reading.timestamp.getTime // Timestamp della lettura, usato per aggiornare lo stato e gestire i timeout
 
         // 2. Logica Context-Aware (Calibrazione soglia Z-Score in base al contesto climatico)
         // Definiamo se il contesto climatico giustifica un aumento dei consumi
@@ -141,7 +140,7 @@ object EnergyStreamingConsumer {
   def main(args: Array[String]): Unit = {
 
     // !!! ATTENZIONE: modificare 'basePath' con il vostro percorso locale alla cartella 'data' !!!
-    val basePath = "/Users/emanuelepiemontese/data"
+    val basePath = "/inserire/il/vostro/percorso/alla/cartella/data"
 
     // Inizializzazione di SparkSession con supporto per Delta Lake
     val spark = SparkSession.builder()
@@ -156,7 +155,7 @@ object EnergyStreamingConsumer {
 
     // --- 1. CARICAMENTO DATASET STATICI (per l'Arricchimento) ---
     // Metadati Households (Broadcast Join) (Dataset B) ---
-    val houseStatic = spark.read.option("header", "true")
+    val houseStatic = spark.read.option("header", "true") // Legge il file CSV con i metadati delle case, specificando che la prima riga contiene l'intestazione (header)
       .csv(s"$basePath/informations_households.csv")
       .dropDuplicates("LCLid") // Misura di sicurezza per Integrità Referenziale
       .filter(!col("Acorn_grouped").contains("ACORN-")) // Rimozione di categorie non informative
@@ -325,6 +324,6 @@ object EnergyStreamingConsumer {
     println(s"Streaming attivo. Scrittura in corso su Silver (atomico), Gold (KPI) e rilevazione delle anomalie...")
 
     // Attende per continuare l'esecuzione fino a quando arrivano nuovi dati
-    spark.streams.awaitAnyTermination()
+    spark.streams.awaitAnyTermination() // !!! ATTENZIONE: interrompere l'esecuzione altrimenti il processo rimarrà attivo in attesa di nuovi dati (usare "Stop" in IDE o Ctrl+C in terminale) !!!
   }
 }

@@ -5,7 +5,10 @@ import org.apache.spark.sql.functions._
 import org.apache.spark.sql.streaming.Trigger
 
 object RealTimeAlertManager {
+
   def main(args: Array[String]): Unit = {
+
+    // Configurazione SparkSession con supporto Delta Lake
     val spark = SparkSession.builder()
       .appName("RealTime-Alert-Handler")
       .master("local[*]")
@@ -18,7 +21,8 @@ object RealTimeAlertManager {
 
     import spark.implicits._
 
-    val basePath = "/Users/emanuelepiemontese/data"
+    // !!! ATTENZIONE: modificare 'basePath' con il vostro percorso locale alla cartella 'data' !!!
+    val basePath = "/inserire/il/vostro/percorso/alla/cartella/data"
 
     // --- 1. LEGGERE IL FLUSSO DEGLI ALERT ---
     val liveAlerts = spark.readStream
@@ -42,6 +46,7 @@ object RealTimeAlertManager {
       .foreachBatch { (batchDF: org.apache.spark.sql.DataFrame, batchId: Long) =>
         // Controlliamo se il batch contiene dati
         if (!batchDF.isEmpty) {
+          // La stampa viene fatta in console. Questa è una simulazione di notifica: in un caso reale si potrebbe inviare un'email, notifiche push, o integrare con sistemi di alerting esterni.
           println(s"--- NUOVI ALERT RILEVATI (Batch: $batchId) ---")
           batchDF.show(false)
         }

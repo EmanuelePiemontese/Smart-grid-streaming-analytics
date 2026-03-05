@@ -10,16 +10,20 @@ import scala.io.Source
 
 // Case class per strutturare il messaggio JSON
 // La case class rappresenta la struttura dei dati che vogliamo inviare a Kafka, con i campi LCLid, tstp ed energy
-case class EnergyRecord(LCLid: String, tstp: String, energy: String)
+case class EnergyRecord(
+                         LCLid: String,
+                         tstp: String,
+                         energy: String
+                       )
 
 object EnergyProducer {
 
   def main(args: Array[String]): Unit = {
 
     // !!! ATTENZIONE: modificare 'basePath' con il vostro percorso locale alla cartella 'data/halfhourly_dataset' !!!
-    val basePath = "/Users/emanuelepiemontese/data/halfhourly_dataset"
+    val basePath = "/inserire/il/vostro/percorso/alla/cartella/data/halfhourly_dataset"
 
-    // Nome del topic Kafka su cui inviare i dati
+    // Nome del topic Kafka su cui inviare i dati (assicurarsi che il topic esista già nel cluster Kafka)
     val topicName = "energy-readings"
 
     // Configurazione del bootstrap server Kafka (modificare se il server Kafka è su un host o porta diversa)
@@ -44,7 +48,7 @@ object EnergyProducer {
     println(s"Inizio invio dati al topic: $topicName")
 
     try {
-      // 2. Lettura dei file CSV (Wildcard o sequenziale)
+      // 2. Lettura dei file CSV e creazione dei messaggi JSON
       // Elenco dei file CSV (block_N.csv), filtrando solo quelli che terminano con ".csv" e ordinandoli per nome
       val files = new File(basePath).listFiles().filter(_.getName.endsWith(".csv")).sorted
 

@@ -26,6 +26,10 @@ libraryDependencies ++= Seq(
   "com.fasterxml.jackson.module" %% "jackson-module-scala" % "2.15.2",
 
   // LOGGING
-  "ch.qos.logback" % "logback-classic" % "1.4.14"
+  "ch.qos.logback" % "logback-classic" % "1.4.14",
+
+  // TESTING: ScalaTest e Mockito per i test unitari
+  "org.scalatest" %% "scalatest" % "3.2.15" % Test,
+  "org.scalatestplus" %% "mockito-4-6" % "3.2.15.0" % Test
 )
 

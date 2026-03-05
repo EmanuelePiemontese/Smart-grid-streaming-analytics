@@ -28,6 +28,35 @@ Il progetto adotta un modello **decoupled (disaccoppiato)** per garantire scalab
 
 ![Architettura di Streaming Analytics](Architettura.png)
 
+
+---
+## Struttura del Repository
+
+## 📂 Struttura del Progetto
+
+```text
+├── data/                       # (Da creare) Dataset CSV originali
+Smart-grid-streaming-analytics/
+├── src/main/scala/
+│   ├── Analytics/
+│   │   └── BusinessInsightsEngine   # Analisi KPI (PAR index, correlazioni)
+│   ├── Consumer/
+│   │   └── EnergyStreamingConsumer  # Engine Spark core: Welford e Z-Score
+│   ├── EDA/
+│   │   └── DataExploration          # Analisi esplorativa dei dati (Exploratory Data Analysis)
+│   ├── Maintenance/
+│   │   └── Optimizer                # Manutenzione Delta Lake (Optimize/Vacuum)
+│   ├── Producer/
+│   │   └── EnergyProducer           # Ingestione: Historical Replay verso Kafka
+│   └── RealTime/
+│       └── RealTimeAlertManager     # Gestione notifiche e alert in tempo reale
+├── src/test/scala/
+│   └── AnomalyDetectionTest         # Test unitari per la validazione della logica
+├── build.sbt                        # Gestione dipendenze e build
+Architettura.png                    # Diagramma dell'architettura del sistema
+Documentazione.pdf                  # Documentazione tecnica dettagliata
+README.md                           # Guida introduttiva e istruzioni
+```
 ---
 
 ## 📊 Dataset e 📜 Licenza
@@ -64,7 +93,7 @@ data/
 All’interno della cartella `data` inserire:
 ```
 data/
-│
+
 ├── halfhourly_dataset
     ├── block_0.csv
     ├── block_1.csv
@@ -148,10 +177,53 @@ libraryDependencies ++= Seq(
 )
 
 ```
-
+---
 ## 📋 Requisiti
 Per eseguire il progetto localmente è necessario:
 
 1. **Java JDK 11** configurato nel `JAVA_HOME`.
 2. **Apache Kafka & Zookeeper** avviati localmente.
 3. **IntelliJ IDEA** con il plugin Scala installato.
+---
+
+Ecco la guida sintetica per replicare il progetto **London Energy Pulse** sul tuo ambiente locale.
+
+---
+
+## Guida Rapida alla Replica
+
+### 1. Setup Ambiente
+
+* **Software**: installa **JDK 11**, **SBT 1.9.8** e **Apache Kafka**.
+* **IDE**: usa **IntelliJ IDEA** con il plugin **Scala** e **Big Data Tools**.
+
+### 2. Preparazione dei Dati
+
+* **Download**: scarica il dataset da [Kaggle](https://www.kaggle.com/datasets/jeanmidev/smart-meters-in-london).
+* **Struttura**: crea la cartella `data/` e organizza i file così:
+```text
+data/
+├── halfhourly_dataset/ (i vari block_N.csv)
+├── informations_households.csv
+└── weather_hourly.csv
+
+```
+### 3. Configurazione Percorsi
+* **Producer**: in `EnergyProducer.scala`, imposta `basePath` verso `data/halfhourly_dataset`.
+* **Consumer**: in `EnergyStreamingConsumer.scala`, imposta i percorsi per `checkpointPath` e i layer Delta (`bronze`, `silver`, `gold`).
+
+### 4. Workflow di Esecuzione
+Esegui i moduli in questo ordine rigoroso per garantire il flusso dei dati:
+
+1. **Kafka**: avvia Zookeeper e il server Kafka (`localhost:9092`).
+2. **`EnergyProducer`**: avvia l'invio dei dati dai CSV al topic Kafka.
+3. **`EnergyStreamingConsumer`**: avvia l'elaborazione Spark, il calcolo di Welford e la scrittura su Delta Lake.
+4. **`RealTimeAlertManager`**: avvia per intercettare le anomalie critiche in tempo reale.
+5. **`BusinessInsightsEngine`**: esegui per generare i report statistici e i KPI.
+6. **`Optimizer`**: esegui a fine sessione per la manutenzione delle tabelle Delta.
+
+---
+
+### 5. Validazione
+* **Test**: esegui `AnomalyDetectionTest` per verificare la logica matematica.
+* **Verifica**: controlla la comparsa dei file `.parquet` nelle cartelle di output dei layer Medallion.
